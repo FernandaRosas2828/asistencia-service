@@ -216,6 +216,22 @@ public class AsistenciaService {
     public List<AsistenciaEntity> getAsistenciasPorMatricula(String matricula) {
         return asistenciaRepository.findByMatricula(matricula);
     }
+    // ================================
+    // HABILITAR ASISTENCIA -- Maria Fernanda Rosas Briones -- IDGS12
+    // ================================
+    @Transactional
+    public boolean habilitarAsistencia(Integer id) {
+        AsistenciaEntity asistencia = asistenciaRepository.findById(id).orElse(null);
+
+        if (asistencia == null) {
+            return false;
+        }
+
+        asistencia.setPresente(true);
+        asistenciaRepository.save(asistencia);
+
+        return true;
+    }
 
     // ================================
     // OBTENER ASISTENCIAS CON DETALLE DE MATERIA

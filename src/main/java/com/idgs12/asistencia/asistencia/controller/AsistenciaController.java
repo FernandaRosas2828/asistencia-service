@@ -112,7 +112,31 @@ public class AsistenciaController {
         response.put("timestamp", LocalDateTime.now());
         return response;
     }
+    // ================================
+    // HABILITAR ASISTENCIA-- Maria Fernanda Rosas Briones IDGS12
+    // ================================
+    @PutMapping("/habilitar/{id}")
+    public ResponseEntity<?> habilitarAsistencia(@PathVariable Integer id) {
+        try {
+            boolean resultado = asistenciaService.habilitarAsistencia(id);
 
+            if (!resultado) {
+                return ResponseEntity.badRequest()
+                        .body(crearError("No se encontró la asistencia con ID: " + id));
+            }
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Asistencia habilitada correctamente");
+            response.put("id", id);
+            response.put("timestamp", LocalDateTime.now());
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(crearError(e.getMessage()));
+        }
+    }
     // ================================
     // OBTENER ASISTENCIAS CON DETALLE
     // ================================
